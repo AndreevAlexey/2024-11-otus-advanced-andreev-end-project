@@ -1,0 +1,5 @@
+databaseChangeLog: #параметр в котором находятся миграции
+  - include: # список активных миграций
+      file: db/changelog/changeset/init_moves_table.sql
+  - include:
+      file: db/changelog/changeset/init_moves_data.sql

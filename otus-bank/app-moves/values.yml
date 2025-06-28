@@ -1,0 +1,17 @@
+appname: app-moves
+tier: backend
+protocol: TCP
+port: 8083
+nodePort: 30003
+type: NodePort
+replicas: 1
+image:
+  repository: 127.0.0.1:5000/app-moves
+  tag: latest
+  pullPolicy: Always
+env:
+  postgresUser: postgres
+  postgresPassword: postgres
+  postgresDb: bank
+  postgresHost: postgres-service
+  profile: kuber

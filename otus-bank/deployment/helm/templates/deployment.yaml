@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appname }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.appname }}
+      {{- if hasKey .Values "tier" }}
+      tier: {{ .Values.tier }}
+      {{- end }}
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appname }}
+        {{- if hasKey .Values "tier" }}
+        tier: {{ .Values.tier }}
+        {{- end }}
+
+    spec:
+      containers:
+        - name: {{ .Values.appname }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.port }}
+          env:
+            {{- if hasKey .Values.env "postgresUser" }}
+            - name: POSTGRES_USER
+              value: {{ .Values.env.postgresUser }}
+            {{- end }}
+
+            {{- if hasKey .Values.env "postgresPassword" }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.env.postgresPassword }}
+            {{- end }}
+
+            {{- if hasKey .Values.env "postgresDb" }}
+            - name: POSTGRES_DB
+              value: {{ .Values.env.postgresDb }}
+            {{- end }}
+
+            {{- if hasKey .Values.env "postgresHost" }}
+            - name: POSTGRES_HOST
+              value: {{ .Values.env.postgresHost }}
+            {{- end }}
+
+            {{- if hasKey .Values.env "profile" }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.env.profile }}
+            {{- end }}
+          {{- if hasKey .Values "args" }}
+          args:
+            - "{{ .Values.args }}"
+          {{- end }}

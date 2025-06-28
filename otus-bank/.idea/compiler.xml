@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="app-gateway" />
+        <module name="app-manuals" />
+        <module name="common" />
+        <module name="app-clients" />
+        <module name="app-accounts" />
+        <module name="app-bank" />
+        <module name="app-moves" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="app-payments" target="17" />
+      <module name="app-reports" target="17" />
+      <module name="lib-common" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="app-accounts" options="-parameters" />
+      <module name="app-bank" options="-parameters" />
+      <module name="app-clients" options="-parameters" />
+      <module name="app-gateway" options="-parameters" />
+      <module name="app-manuals" options="-parameters" />
+      <module name="app-moves" options="-parameters" />
+      <module name="app-payments" options="-parameters" />
+      <module name="app-reports" options="" />
+      <module name="bom" options="-parameters" />
+      <module name="common" options="-parameters" />
+    </option>
+  </component>
+</project>

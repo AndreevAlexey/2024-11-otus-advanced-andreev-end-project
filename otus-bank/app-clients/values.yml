@@ -1,0 +1,17 @@
+appname: app-clients
+tier: backend
+protocol: TCP
+port: 8081
+nodePort: 30001
+type: NodePort
+replicas: 1
+image:
+  repository: 127.0.0.1:5000/app-clients
+  tag: latest
+  pullPolicy: Always
+env:
+  postgresUser: postgres
+  postgresPassword: postgres
+  postgresDb: bank
+  postgresHost: postgres-service
+  profile: kuber
