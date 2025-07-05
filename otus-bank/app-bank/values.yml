@@ -1,0 +1,13 @@
+appname: app-bank
+tier: backend
+protocol: TCP
+port: 8080
+nodePort: 30000
+type: NodePort
+replicas: 1
+image:
+  repository: 127.0.0.1:5000/app-bank
+  tag: latest
+  pullPolicy: Always
+env:
+  profile: kuber

@@ -1,0 +1,17 @@
+appname: app-accounts
+tier: backend
+protocol: TCP
+port: 8082
+nodePort: 30002
+type: NodePort
+replicas: 1
+image:
+  repository: 127.0.0.1:5000/app-accounts
+  tag: latest
+  pullPolicy: Always
+env:
+  postgresUser: postgres
+  postgresPassword: postgres
+  postgresDb: bank
+  postgresHost: postgres-service
+  profile: kuber

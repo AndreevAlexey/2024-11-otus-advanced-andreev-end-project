@@ -1,0 +1,35 @@
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "app-bank"
+    metrics_path: /api/v1/actuator/prometheus
+    static_configs:
+      - targets: [app-bank:8080]
+
+  - job_name: "app-clients"
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ app-clients:8081 ]
+
+  - job_name: "app-accounts"
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ app-accounts:8082 ]
+
+  - job_name: "app-moves"
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ app-moves:8083 ]
+
+  - job_name: "app-manuals"
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [ app-manuals:8084 ]
+
+#  - job_name: "app-reports"
+#    metrics_path: /actuator/prometheus
+#    static_configs:
+#      - targets: [ app-reports:8085 ]

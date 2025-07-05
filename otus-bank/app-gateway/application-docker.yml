@@ -1,0 +1,38 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: app-gateway
+    version: v1
+
+  cloud:
+    gateway:
+      routes:
+        - id: app-clients
+          uri: http://app-clients:8081
+          predicates:
+            - Path=/client/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        - id: app-accounts
+          uri: http://app-accounts:8082
+          predicates:
+            - Path=/account/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        - id: app-moves
+          uri: http://app-moves:8083
+          predicates:
+            - Path=/move/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        - id: app-manuals
+          uri: http://app-manuals:8084
+          predicates:
+            - Path=/currency/**
+          filters:
+            - RemoveRequestHeader=Cookie

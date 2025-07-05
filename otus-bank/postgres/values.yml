@@ -1,0 +1,13 @@
+appname: postgres-service
+protocol: TCP
+port: 5432
+targetPort: 5432
+replicas: 1
+image:
+  repository: 127.0.0.1:5000/postgres
+  tag: latest
+  pullPolicy: Always
+env:
+  postgresUser: postgres
+  postgresPassword: postgres
+  postgresDb: bank

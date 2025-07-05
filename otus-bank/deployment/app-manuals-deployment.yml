@@ -1,0 +1,53 @@
+# Service
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-manuals
+spec:
+  selector:
+    app: app-manuals
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8084
+      nodePort: 30004
+  type: NodePort
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-manuals
+spec:
+  selector:
+    matchLabels:
+      app: app-manuals
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-manuals
+        tier: backend
+    spec:
+      containers:
+        - name: otus-bank-app-manuals
+          image: 127.0.0.1:5000/app-manuals:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8084
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              value: postgres
+
+            - name: POSTGRES_DB
+              value: bank
+
+            - name: POSTGRES_HOST
+              value: postgres-service
+
+            - name: SPRING_PROFILES_ACTIVE
+              value: kuber

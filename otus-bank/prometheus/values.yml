@@ -1,0 +1,14 @@
+appname: prometheus
+protocol: TCP
+port: 9090
+targetPort: 9090
+nodePort: 30090
+replicas: 1
+type: NodePort
+image:
+  repository: 127.0.0.1:5000/prometheus
+  tag: latest
+  pullPolicy: Always
+env:
+  emty: true
+args: --config.file=/etc/prometheus/prometheus.yml

@@ -1,0 +1,41 @@
+# Service
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-bank
+spec:
+  selector:
+    app: app-bank
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      nodePort: 30000
+  type: NodePort
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-bank
+spec:
+  selector:
+    matchLabels:
+      app: app-bank
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-bank
+        tier: backend
+    spec:
+      containers:
+        - name: otus-bank-app-bank
+          image: 127.0.0.1:5000/app-bank:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kuber

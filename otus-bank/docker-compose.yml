@@ -1,0 +1,156 @@
+version: "3.7"
+
+networks:
+  otus:
+    driver: bridge
+
+services:
+
+  postgres:
+    image: "postgres:13-alpine"
+    container_name: postgres
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=bank
+    networks:
+      - otus
+
+  app-clients:
+    depends_on:
+      - postgres
+    build:
+      dockerfile: ./app-clients/Dockerfile-compose
+    hostname: app-clients
+    container_name: app-clients
+    restart: "no"
+    ports:
+      - "8081:8081"
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/bank"
+      - "SPRING_DATASOURCE_USERNAME=postgres"
+      - "SPRING_DATASOURCE_PASSWORD=postgres"
+      - "SPRING_PROFILES_ACTIVE=dev"
+    networks:
+      - otus
+
+  app-accounts:
+    depends_on:
+      - postgres
+    build:
+      dockerfile: ./app-accounts/Dockerfile-compose
+    hostname: app-accounts
+    container_name: app-accounts
+    restart: "no"
+    ports:
+      - "8082:8082"
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/bank"
+      - "SPRING_DATASOURCE_USERNAME=postgres"
+      - "SPRING_DATASOURCE_PASSWORD=postgres"
+      - "SPRING_PROFILES_ACTIVE=dev"
+    networks:
+      - otus
+
+  app-moves:
+    depends_on:
+      - postgres
+    build:
+      dockerfile: ./app-moves/Dockerfile-compose
+    hostname: app-moves
+    container_name: app-moves
+    restart: "no"
+    ports:
+      - "8083:8083"
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/bank"
+      - "SPRING_DATASOURCE_USERNAME=postgres"
+      - "SPRING_DATASOURCE_PASSWORD=postgres"
+      - "SPRING_PROFILES_ACTIVE=dev"
+    networks:
+      - otus
+
+  app-manuals:
+    depends_on:
+      - postgres
+    build:
+      dockerfile: ./app-manuals/Dockerfile-compose
+    hostname: app-manuals
+    container_name: app-manuals
+    restart: "no"
+    ports:
+      - "8084:8084"
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/bank"
+      - "SPRING_DATASOURCE_USERNAME=postgres"
+      - "SPRING_DATASOURCE_PASSWORD=postgres"
+      - "SPRING_PROFILES_ACTIVE=dev"
+    networks:
+      - otus
+
+  app-gateway:
+    depends_on:
+      - app-clients
+      - app-accounts
+      - app-moves
+      - app-manuals
+    build:
+      dockerfile: ./app-gateway/Dockerfile-compose
+    hostname: app-gateway
+    container_name: app-gateway
+    restart: "no"
+    ports:
+      - "8888:8888"
+    networks:
+      - otus
+    environment:
+      - "SPRING_PROFILES_ACTIVE=kuber"
+
+  app-bank:
+    depends_on:
+      - app-gateway
+    build:
+      dockerfile: ./app-bank/Dockerfile-compose
+    hostname: app-bank
+    container_name: app-bank
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - otus
+    environment:
+      - "SPRING_PROFILES_ACTIVE=kuber"
+
+
+  prometheus:
+    image: prom/prometheus
+    depends_on:
+      - app-bank
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - otus
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+    hostname: prometheus
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/:/etc/grafana/provisioning/
+    env_file:
+      - ./grafana/config.monitoring
+    networks:
+      - otus
+    restart: always

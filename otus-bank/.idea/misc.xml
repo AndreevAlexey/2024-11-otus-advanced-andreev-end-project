@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/app-accounts/pom.xml" />
+        <option value="$PROJECT_DIR$/app-clients/pom.xml" />
+        <option value="$PROJECT_DIR$/app-payment/pom.xml" />
+        <option value="$PROJECT_DIR$/app-moves/pom.xml" />
+        <option value="$PROJECT_DIR$/app-manuals/pom.xml" />
+        <option value="$PROJECT_DIR$/app-bank/pom.xml" />
+        <option value="$PROJECT_DIR$/app-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/bom/pom.xml" />
+        <option value="$PROJECT_DIR$/common/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/bom/lib-common/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="PWA">
+    <option name="enabled" value="true" />
+    <option name="wasEnabledAtLeastOnce" value="true" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

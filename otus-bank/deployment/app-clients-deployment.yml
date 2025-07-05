@@ -1,0 +1,53 @@
+# Service
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-clients
+spec:
+  selector:
+    app: app-clients
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8081
+      nodePort: 30001
+  type: NodePort
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-clients
+spec:
+  selector:
+    matchLabels:
+      app: app-clients
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-clients
+        tier: backend
+    spec:
+      containers:
+        - name: otus-bank-app-clients
+          image: 127.0.0.1:5000/app-clients:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              value: postgres
+
+            - name: POSTGRES_DB
+              value: bank
+
+            - name: POSTGRES_HOST
+              value: postgres-service
+
+            - name: SPRING_PROFILES_ACTIVE
+              value: kuber
